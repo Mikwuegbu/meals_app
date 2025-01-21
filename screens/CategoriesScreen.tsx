@@ -24,7 +24,7 @@ export default CategoriesScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'white',
+		// backgroundColor: 'white',
 		paddingVertical: 40,
 	},
 });

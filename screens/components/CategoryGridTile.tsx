@@ -16,7 +16,7 @@ const CategoryGridTile = ({
 					pressed ? styles.buttonPressed : null,
 				]}
 			>
-				<View style={styles.innerContainer}>
+				<View style={[styles.innerContainer, { backgroundColor: color }]}>
 					<Text style={styles.title}>{title}</Text>
 				</View>
 			</Pressable>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 8,
 		shadowOffset: { width: 0, height: 2 },
-		overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
+		overflow: 'hidden',
 	},
 	button: {
 		flex: 1,
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
 		padding: 16,
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderRadius: 8,
 	},
 	title: {
 		fontSize: 18,
