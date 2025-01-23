@@ -7,6 +7,7 @@ import {
 	View,
 } from 'react-native';
 import Meal from '../models/meal';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 const MealItem = ({
 	title,
@@ -14,10 +15,20 @@ const MealItem = ({
 	duration,
 	complexity,
 	affordability,
+	id,
 }: Meal) => {
+	const { navigate } = useNavigation();
+
+	const handlePress = () => {
+		navigate('mealDetail', {
+			mealId: id,
+		});
+	};
+
 	return (
 		<View style={styles.mealItem}>
 			<Pressable
+				onPress={handlePress}
 				android_ripple={{ color: '#e2e1e1' }}
 				style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
 			>
@@ -43,7 +54,7 @@ const styles = StyleSheet.create({
 	mealItem: {
 		margin: 10,
 		borderRadius: 8,
-		overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
+		overflow: 'hidden',
 		backgroundColor: 'white',
 		justifyContent: 'space-between',
 		elevation: 4,

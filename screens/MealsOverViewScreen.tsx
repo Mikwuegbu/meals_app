@@ -1,21 +1,33 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { BackHandler, FlatList, StyleSheet, Text, View } from 'react-native';
 import Category from '../models/category';
-import { MEALS } from '../data/dummy-data';
+import { CATEGORIES, MEALS } from '../data/dummy-data';
 import MealItem from '../components/MealItem';
 import Meal from '../models/meal';
+import { useEffect, useLayoutEffect } from 'react';
 
-type RouteParams = {
+export type RouteParams = {
 	categoryId: string;
 };
 
 const MealsOverViewScreen = () => {
 	const { params } = useRoute();
-	const catID = (params as RouteParams).categoryId;
+	const { setOptions } = useNavigation();
+	const { categoryId } = params as RouteParams;
 
 	const displayedMeals = MEALS.filter(
-		(meal) => meal.categoryIds.indexOf(catID) >= 0
+		(meal) => meal.categoryIds.indexOf(categoryId) >= 0
 	);
+
+	//use a useEffect
+	useLayoutEffect(() => {
+		const categoryTitle = CATEGORIES.find(
+			(category) => category.id === categoryId
+		)?.title;
+		setOptions({
+			title: categoryTitle,
+		});
+	}, [categoryId, setOptions]);
 
 	const renderMealItem = (itemData: Meal) => {
 		return <MealItem {...itemData} />;
