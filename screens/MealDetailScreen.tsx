@@ -1,11 +1,40 @@
-import { useRoute } from '@react-navigation/native';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+	Button,
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import { MEALS } from '../data/dummy-data';
 import MealDetails from '../components/MealDetails';
+import { useLayoutEffect } from 'react';
+import { ScreenStackHeaderRightView } from 'react-native-screens';
+import IconButton from '../components/IconButton';
 
 const MealDetailScreen = () => {
 	const { mealId } = useRoute().params as { mealId: string };
 	const selectMeal = MEALS.find((meal) => meal.id === mealId);
+	const { setOptions } = useNavigation();
+
+	const headerButtonPressHandler = () => {
+		console.log('Button tapped!');
+	};
+
+	useLayoutEffect(() => {
+		setOptions({
+			headerRight: () => {
+				return (
+					<IconButton
+						onPress={headerButtonPressHandler}
+						icon="star"
+						color="white"
+					/>
+				);
+			},
+		});
+	}, [setOptions, headerButtonPressHandler]);
 
 	return (
 		<ScrollView style={styles.rootContaine}>
@@ -21,10 +50,8 @@ const MealDetailScreen = () => {
 					<Text style={styles.subTitle}>Ingredients</Text>
 				</View>
 				{selectMeal?.ingredients.map((ingredient, index) => (
-					<View style={styles.ingredientsContainer}>
-						<Text style={styles.itemText} key={index}>
-							{ingredient}
-						</Text>
+					<View key={index} style={styles.ingredientsContainer}>
+						<Text style={styles.itemText}>{ingredient}</Text>
 					</View>
 				))}
 				<View style={styles.subTitleContainer}>
@@ -32,10 +59,8 @@ const MealDetailScreen = () => {
 				</View>
 
 				{selectMeal?.steps.map((step, index) => (
-					<View style={styles.ingredientsContainer}>
-						<Text style={styles.itemText} key={index}>
-							{step}
-						</Text>
+					<View key={index} style={styles.ingredientsContainer}>
+						<Text style={styles.itemText}>{step}</Text>
 					</View>
 				))}
 			</View>
