@@ -8,6 +8,7 @@ import MealDetailScreen from './screens/MealDetailScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FavouriteScreen from './screens/FavouriteScreen';
 import { Ionicons } from '@expo/vector-icons';
+import FavoritesContextProvider from './store/context/favorites-context';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -49,7 +50,7 @@ const DrawerNavigator = () => {
 				name="favorites"
 				component={FavouriteScreen}
 				options={{
-					title: 'All Categories',
+					title: 'Favorite Meals',
 					drawerIcon: ({ color, size }) => (
 						<Ionicons name="star" size={size} color={color} />
 					),
@@ -63,50 +64,52 @@ export default function App() {
 	return (
 		<>
 			<StatusBar style="light" />
-			<NavigationContainer>
-				<Stack.Navigator
-					screenOptions={{
-						headerStyle: {
-							backgroundColor: '#351401',
-						},
-						headerTintColor: '#fff',
-						contentStyle: {
-							backgroundColor: '#3f2f25',
-						},
-					}}
-					initialRouteName="MealsCategories"
-				>
-					<Stack.Screen
-						options={{
-							title: 'All Categories',
-							headerShown: false,
+			<FavoritesContextProvider>
+				<NavigationContainer>
+					<Stack.Navigator
+						screenOptions={{
+							headerStyle: {
+								backgroundColor: '#351401',
+							},
+							headerTintColor: '#fff',
+							contentStyle: {
+								backgroundColor: '#3f2f25',
+							},
 						}}
-						name="MealsCategories"
-						component={DrawerNavigator}
-					></Stack.Screen>
-					<Stack.Screen
-						options={{
-							headerBackButtonDisplayMode: 'minimal',
-						}}
-						// options={({ route, navigation }) => {
-						// 	const { categoryId } = route.params as RouteParams;
-						// 	return {
-						// 		title: categoryId,
-						// 	};
-						// }}
+						initialRouteName="MealsCategories"
+					>
+						<Stack.Screen
+							options={{
+								title: 'All Categories',
+								headerShown: false,
+							}}
+							name="MealsCategories"
+							component={DrawerNavigator}
+						></Stack.Screen>
+						<Stack.Screen
+							options={{
+								headerBackButtonDisplayMode: 'minimal',
+							}}
+							// options={({ route, navigation }) => {
+							// 	const { categoryId } = route.params as RouteParams;
+							// 	return {
+							// 		title: categoryId,
+							// 	};
+							// }}
 
-						name="MealsOverview"
-						component={MealsOverViewScreen}
-					></Stack.Screen>
-					<Stack.Screen
-						name="mealDetail"
-						options={{
-							title: 'About the Meal',
-						}}
-						component={MealDetailScreen}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
+							name="MealsOverview"
+							component={MealsOverViewScreen}
+						></Stack.Screen>
+						<Stack.Screen
+							name="mealDetail"
+							options={{
+								title: 'About the Meal',
+							}}
+							component={MealDetailScreen}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</FavoritesContextProvider>
 		</>
 	);
 }
