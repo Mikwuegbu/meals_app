@@ -13,6 +13,7 @@ import { useContext, useLayoutEffect } from 'react';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
 import IconButton from '../components/IconButton';
 import { FavoritesContext } from '../store/context/favorites-context';
+import { useSelector } from 'react-redux';
 
 const MealDetailScreen = () => {
 	const { mealId } = useRoute().params as { mealId: string };
